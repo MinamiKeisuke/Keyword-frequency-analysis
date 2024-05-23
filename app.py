@@ -42,6 +42,7 @@ def analyze_text(text, keywords, user_defined_words):
     token_surfaces = []
     independent_words = []
 
+    # ユーザー定義の自立語を先に抽出し、テキストから削除
     for word in user_defined_words:
         while word in text:
             independent_words.append(word)
@@ -63,7 +64,7 @@ def analyze_text(text, keywords, user_defined_words):
 
     keyword_counts = {}
     for keyword in keywords:
-        keyword_counts[keyword] = concatenated_text.count(keyword) + independent_words.count(keyword)
+        keyword_counts[keyword] = independent_words.count(keyword)
     
     results = {}
     for keyword, count in keyword_counts.items():
@@ -146,4 +147,4 @@ def download():
     return send_file('/tmp/analysis_results.xlsx', as_attachment=True, download_name=filename)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
